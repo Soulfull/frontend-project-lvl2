@@ -8,3 +8,6 @@ publish:
 
 eslint:
 	npx eslint .
+
+test:
+	npm test
