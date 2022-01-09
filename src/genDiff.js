@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { compare } from './lib/compare.js';
-import { toStringObject } from './lib/toStringObject.js';
-
+import { compare } from './lib/compare';
+import { toStringObject } from './lib/toStringObject';
 
 export const genDiff = (path1, path2) => {
   const data1 = fs.readFileSync(path.resolve(path1), 'utf8');

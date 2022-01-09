@@ -33,8 +33,8 @@ export const compare = (data1, data2) => {
     .map((key) => ({
       key,
       value: data2[key],
-      status: 'added'
+      status: 'added',
     }));
 
-    return _.sortBy([...diff, ...newData], ['key']);
-}
+  return _.sortBy([...diff, ...newData], ['key']);
+};

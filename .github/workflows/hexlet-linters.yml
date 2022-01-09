@@ -1,0 +1,13 @@
+name: hexlet-linters
+on: push
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v2
+
+      - name: Run setup
+        run: make install
+
+      - name: Run eslint
+        run: make eslint
