@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export const compare = (data1, data2) => {
+const compare = (data1, data2) => {
   const diff = _.transform(data1, (result, value, key) => {
     if (_.has(data2, key) && _.isEqual(value, data2[key])) {
       result.push({
@@ -38,3 +38,5 @@ export const compare = (data1, data2) => {
 
   return _.sortBy([...diff, ...newData], ['key']);
 };
+
+export default compare;
