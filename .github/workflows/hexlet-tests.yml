@@ -1,0 +1,13 @@
+name: hexlet-tests
+on: push
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run setup
+        run: make install
+
+      - name: Run tests
+        run: make test
