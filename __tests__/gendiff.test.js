@@ -3,6 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { test, expect } from '@jest/globals';
 import compare from '../src/lib/compare.js';
+import getSign from '../src/lib/getSign.js';
+import toStringObject from '../src/lib/toStringObject.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,4 +25,22 @@ test('testing compare fn', () => {
   const file2 = readFile('file2.json');
   const diffObject = compare(JSON.parse(file1), JSON.parse(file2));
   expect(diffObject).toEqual(result);
+});
+
+test('testing getSign', () => {
+  expect(getSign('added')).toBe('+');
+  expect(getSign('deleted')).toBe('-');
+  expect(getSign('not modified')).toBe(' ');
+  expect(getSign()).toBe(' ');
+});
+
+test('testing toStringObject', () => {
+  expect(toStringObject(result)).toBe(`{
+  - follow: false
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}`);
 });
