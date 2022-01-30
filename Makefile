@@ -11,3 +11,6 @@ eslint:
 
 test:
 	npm test
+
+coverage:
+	npm t --coverage
