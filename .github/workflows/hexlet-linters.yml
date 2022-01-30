@@ -11,3 +11,8 @@ jobs:
 
       - name: Run eslint
         run: make eslint
+
+      - name: publish code coverage
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: e588d487546ae8fea9edebc11dcdbc12ee85d0e21d21f9f1ca9a58bd3befdbda
