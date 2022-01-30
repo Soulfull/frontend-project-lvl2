@@ -2,13 +2,20 @@ import fs from 'fs';
 import path from 'path';
 import compare from './lib/compare.js';
 import toStringObject from './lib/toStringObject.js';
+import getParse from './parsers/getParse.js';
 
-const genDiff = (path1, path2) => {
-  const data1 = fs.readFileSync(path.resolve(path1), 'utf8');
-  const data2 = fs.readFileSync(path.resolve(path2), 'utf8');
-  const diff = compare(JSON.parse(data1), JSON.parse(data2));
-  const str = toStringObject(diff);
-  return console.log(str);
+export const genDiff = (paths) => {
+  const items = paths.map((filepath) => {
+    const contents = fs.readFileSync(path.resolve(filepath), 'utf8');
+    const ext = path.extname(filepath);
+    const parse = getParse(ext);
+    return parse(contents);
+  });
+  const diff = compare(...items);
+  return toStringObject(diff);
 };
 
-export default genDiff;
+export const logDiff = (paths) => {
+  const diff = genDiff(paths);
+  console.log(diff);
+};

@@ -5,6 +5,7 @@ import { test, expect } from '@jest/globals';
 import compare from '../src/lib/compare.js';
 import getSign from '../src/lib/getSign.js';
 import toStringObject from '../src/lib/toStringObject.js';
+import { genDiff } from '../src/genDiff.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,12 +36,13 @@ test('testing getSign', () => {
 });
 
 test('testing toStringObject', () => {
-  expect(toStringObject(result)).toBe(`{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}`);
+  expect(toStringObject(result)).toMatchSnapshot();
+});
+
+test('diff .json files', () => {
+  expect(genDiff([getFixturePath('file1.json'), getFixturePath('file2.json')])).toMatchSnapshot();
+});
+
+test('diff .yaml and .yml files', () => {
+  expect(genDiff([getFixturePath('file1.yaml'), getFixturePath('file2.yml')])).toMatchSnapshot();
 });
