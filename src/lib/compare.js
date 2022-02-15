@@ -121,7 +121,13 @@ diff = {
 // ];
 
 // const diffNestedData = [
-//   { key: 'a', value: [{ key: 'dd', value: 10, status: removed }, { key: 'dd', value: 11, status: added }] },
+//   {
+//     key: 'a',
+//     value: [
+//       { key: 'dd', value: 10, status: 'removed' },
+//       { key: 'dd', value: 11, status: 'added' },
+//     ],
+//   },
 //   { key: 'a', value: 2, status: 'added' },
 //   { key: 'b', value: 2, status: 'removed' },
 //   { key: 'c', value: 3, status: 'not_modified' },
