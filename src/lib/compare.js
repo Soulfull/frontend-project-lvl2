@@ -146,26 +146,33 @@ diff = {
 //   d: 4,
 // };
 
-const getSourceStatus = ({ key, value, target }) => {
-  const isRemoved = !(`${key}` in target) || !_.isEqual(value, target[key]);
-  return isRemoved ? statuses.removed : statuses.equal;
-};
-
-const getTargetStatus = ({ key, value, source }) => {
-  const isAdded = !(`${key}` in source) || !_.isEqual(value, source[key]);
-  return isAdded ? statuses.added : statuses.equal;
+const checkStatus = ({ key, value, obj }) => !(`${key}` in obj) || !_.isEqual(value, obj[key]);
+const getStatus = ({
+  key, value, target, source,
+}) => {
+  const isRemoved = checkStatus({ key, value, obj: target });
+  const isAdded = checkStatus({ key, value, obj: source });
+  if (isRemoved) {
+    return statuses.removed;
+  }
+  if (isAdded) {
+    return statuses.added;
+  }
+  return statuses.equal;
 };
 
 const compare = (source, target) => {
   const diffSource = Object.entries(source).map(([key, value]) => {
-    const status = getSourceStatus({
-      key, value, target,
+    const status = getStatus({
+      key, value, target, source,
     });
     return { key, value, status };
   });
   const diffTarget = Object.entries(target)
     .filter(([key, value]) => {
-      const status = getTargetStatus({ key, value, source });
+      const status = getStatus({
+        key, value, source, target,
+      });
       return status === statuses.added;
     })
     .map(([key, value]) => ({ key, value, status: statuses.added }));
