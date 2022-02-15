@@ -1,13 +1,18 @@
-const getSign = (status) => {
+export const statuses = {
+  removed: 'removed',
+  equal: 'equal',
+  modified: 'modified',
+  added: 'added',
+};
+
+export const getSign = (status) => {
   switch (status) {
-    case 'added':
+    case statuses.added:
       return '+';
-    case 'deleted':
+    case statuses.removed:
       return '-';
-    case 'not modified':
+    case statuses.equal:
     default:
       return ' ';
   }
 };
-
-export default getSign;

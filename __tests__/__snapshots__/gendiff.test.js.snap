@@ -22,7 +22,7 @@ exports[`diff .yaml and .yml files 1`] = `
 }"
 `;
 
-exports[`testing toStringObject 1`] = `
+exports[`logDiff. console.log should be called 1`] = `
 "{
   - follow: false
     host: hexlet.io
