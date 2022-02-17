@@ -1,21 +1,12 @@
-function stringifyObject(val, replacer = ' ', count = 1) {
-  const iter = (value, depth) => {
+const stringifyObject = (val, replacer, depth) => {
+  const iter = (value, currentDepth) => {
     if (typeof value !== 'object' || value === null || value === undefined) {
       return String(value);
     }
 
-    if (Array.isArray(value)) {
-      return `[${value.map((item) => stringifyObject(item)).join()}]`;
-    }
-
-    if (Object.keys(value).length === 0) {
-      return '{}';
-    }
-
-    const currentCount = depth * count;
-    const currentIndent = replacer.repeat(currentCount);
-    const bracketsIndent = replacer.repeat(currentCount - count);
-    const contents = Object.entries(value).map(([key, propVal]) => `${currentIndent}${key}: ${iter(propVal, depth + 1)}`);
+    const currentIndent = replacer.repeat(currentDepth);
+    const bracketsIndent = replacer.repeat(currentDepth - 1);
+    const contents = Object.entries(value).map(([key, propVal]) => `${currentIndent}${key}: ${iter(propVal, currentDepth + 1)}`);
     return [
       '{',
       ...contents,
@@ -23,7 +14,7 @@ function stringifyObject(val, replacer = ' ', count = 1) {
     ].join('\n');
   };
 
-  return iter(val, 1);
-}
+  return iter(val, depth);
+};
 
 export default stringifyObject;
