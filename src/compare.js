@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { statuses } from './getSign.js';
+import statuses from './constants/statuses.js';
 
 const checkStatus = ({ key, value, obj }) => !(`${key}` in obj) || !_.isEqual(value, obj[key]);
 
