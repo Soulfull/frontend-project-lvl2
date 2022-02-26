@@ -13,7 +13,7 @@ const genDiff = (paths, formatType) => {
   });
   const diff = compare(...items);
   const format = getFormat(formatType);
-  return `${format(diff)}\n`;
+  return format(diff);
 };
 
 export default genDiff;

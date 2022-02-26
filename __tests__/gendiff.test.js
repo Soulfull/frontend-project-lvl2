@@ -14,24 +14,24 @@ const resultPlain = fs.readFileSync(getFixturePath('result_plain.txt'), 'utf8');
 
 test('diff stylish .json nested files', () => {
   const diff = genDiff([getFixturePath('file1.json'), getFixturePath('file2.json')]);
-  expect(diff).toBe(resultStylish);
+  expect(diff).toEqual(resultStylish);
 });
 
 test('diff stylish .yaml nested files', () => {
   const diff = genDiff([getFixturePath('file1.yml'), getFixturePath('file2.yml')]);
-  expect(diff).toBe(resultStylish);
+  expect(diff).toEqual(resultStylish);
 });
 
 test('diff plain format', () => {
   const diff = genDiff([getFixturePath('file1.json'), getFixturePath('file2.json')], 'plain');
-  expect(diff).toBe(resultPlain);
+  expect(diff).toEqual(resultPlain);
 });
 
 test('json formatter', () => {
   const diff = [{
     a: 1, b: 'test', c: null,
   }, [{ dd: [{ cav: [] }] }]];
-  expect(json(diff)).toBe(JSON.stringify(diff));
+  expect(json(diff)).toEqual(JSON.stringify(diff));
 });
 
 test('diff json format', () => {
