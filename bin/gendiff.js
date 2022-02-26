@@ -12,7 +12,7 @@ program
   .description('Compares two configuration files and shows a difference.')
   .action((filepath1, filepath2) => {
     const { format: formatType } = program.opts();
-    const diff = genDiff([filepath1, filepath2], formatType);
+    const diff = genDiff(filepath1, filepath2, formatType);
     logger(diff);
   })
   .option('-f, --format [type]', 'output format', 'stylish');
