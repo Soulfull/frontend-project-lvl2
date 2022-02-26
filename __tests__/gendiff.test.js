@@ -13,17 +13,17 @@ const resultStylish = fs.readFileSync(getFixturePath('result_stylish.txt'), 'utf
 const resultPlain = fs.readFileSync(getFixturePath('result_plain.txt'), 'utf8');
 
 test('diff stylish .json nested files', () => {
-  const diff = genDiff([getFixturePath('file1.json'), getFixturePath('file2.json')]);
+  const diff = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
   expect(diff).toEqual(resultStylish);
 });
 
 test('diff stylish .yaml nested files', () => {
-  const diff = genDiff([getFixturePath('file1.yml'), getFixturePath('file2.yml')]);
+  const diff = genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'));
   expect(diff).toEqual(resultStylish);
 });
 
 test('diff plain format', () => {
-  const diff = genDiff([getFixturePath('file1.json'), getFixturePath('file2.json')], 'plain');
+  const diff = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'plain');
   expect(diff).toEqual(resultPlain);
 });
 
@@ -35,6 +35,6 @@ test('json formatter', () => {
 });
 
 test('diff json format', () => {
-  const diff = genDiff([getFixturePath('file1.json'), getFixturePath('file2.json')], 'json');
+  const diff = genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'json');
   expect(diff).toMatchSnapshot();
 });
