@@ -1,8 +1,9 @@
+import isObject from 'lodash/isObject.js';
 import statuses from '../constants/statuses.js';
 
 const stringifyObject = (val, replacer, depth) => {
   const iter = (value, currentDepth) => {
-    if (typeof value !== 'object' || value === null || value === undefined) {
+    if (!isObject(value)) {
       return String(value);
     }
 
@@ -37,18 +38,23 @@ const getSign = (status) => {
   }
 };
 
-const stylish = (data) => {
+const stylish = (diff) => {
   const replacer = '    ';
   const iter = (nodes, depth) => {
     const indent = replacer.repeat(depth);
     const closeBraceIndent = replacer.repeat(depth - 1);
-    const contents = nodes.map((node) => {
+    const contents = nodes.flatMap((node) => {
+      if (node.status === statuses.updated) {
+        const oldValue = `${replaceChar(indent, '-')}${node.key}: ${stringifyObject(node.value, replacer, depth + 1)}`;
+        const newValue = `${replaceChar(indent, '+')}${node.key}: ${stringifyObject(node.updatedValue, replacer, depth + 1)}`;
+        return [oldValue, newValue];
+      }
       const sign = getSign(node.status);
       return `${replaceChar(indent, sign)}${node.key}: ${Array.isArray(node.value) ? iter(node.value, depth + 1) : stringifyObject(node.value, replacer, depth + 1)}`;
     });
     return ['{', ...contents, `${closeBraceIndent}}`].join('\n');
   };
-  return iter(data, 1);
+  return iter(diff, 1);
 };
 
 export default stylish;

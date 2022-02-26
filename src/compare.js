@@ -1,46 +1,51 @@
-import _ from 'lodash';
+import sortBy from 'lodash/sortBy.js';
+import isEqual from 'lodash/isEqual.js';
+import isObject from 'lodash/isObject.js';
 import statuses from './constants/statuses.js';
 
-const checkStatus = ({ key, value, obj }) => !(`${key}` in obj) || !_.isEqual(value, obj[key]);
-
 const getStatus = ({
-  key, value, target, source,
+  key, target, source,
 }) => {
-  const isRemoved = checkStatus({ key, value, obj: target });
-  const isAdded = checkStatus({ key, value, obj: source });
+  const isRemoved = (`${key}` in source) && !(`${key}` in target);
+  const isAdded = (`${key}` in target) && !(`${key}` in source);
+  const isUpdated = (`${key}` in target) && (`${key}` in source) && !isEqual(source[key], target[key]);
   if (isRemoved) {
     return statuses.removed;
   }
   if (isAdded) {
     return statuses.added;
   }
+  if (isUpdated) {
+    return statuses.updated;
+  }
   return statuses.equal;
 };
 
 const compare = (source, target) => {
   const diffSource = Object.entries(source).map(([key, value]) => {
-    const isObjects = typeof value === 'object' && typeof target[key] === 'object';
+    const isObjects = isObject(value) && isObject(target[key]);
     const valueData = isObjects ? compare(value, target[key]) : value;
     const statusData = isObjects ? null : getStatus({
       key, value, target, source,
     });
-    return {
+    const node = {
       key,
       value: valueData,
       status: statusData,
     };
+    return statusData === statuses.updated ? { ...node, updatedValue: target[key] } : node;
   });
   const diffTarget = Object.entries(target)
-    .filter(([key, value]) => typeof value !== 'object' || typeof source[key] !== 'object')
-    .filter(([key, value]) => {
+    .filter(([key, value]) => !isObject(value) || !isObject(source[key]))
+    .filter(([key]) => {
       const status = getStatus({
-        key, value, source, target,
+        key, source, target,
       });
       return status === statuses.added;
     })
     .map(([key, value]) => ({ key, value, status: statuses.added }));
 
-  return _.sortBy([...diffSource, ...diffTarget], 'key');
+  return sortBy([...diffSource, ...diffTarget], 'key');
 };
 
 export default compare;

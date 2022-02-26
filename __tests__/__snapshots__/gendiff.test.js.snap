@@ -1,171 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`diff .json files 1`] = `
-Array [
-  Object {
-    "key": "common",
-    "status": null,
-    "value": Array [
-      Object {
-        "key": "follow",
-        "status": "added",
-        "value": false,
-      },
-      Object {
-        "key": "setting1",
-        "status": "equal",
-        "value": "Value 1",
-      },
-      Object {
-        "key": "setting2",
-        "status": "removed",
-        "value": 200,
-      },
-      Object {
-        "key": "setting3",
-        "status": "removed",
-        "value": true,
-      },
-      Object {
-        "key": "setting3",
-        "status": "added",
-        "value": null,
-      },
-      Object {
-        "key": "setting4",
-        "status": "added",
-        "value": "blah blah",
-      },
-      Object {
-        "key": "setting5",
-        "status": "added",
-        "value": Object {
-          "key5": "value5",
-        },
-      },
-      Object {
-        "key": "setting6",
-        "status": null,
-        "value": Array [
-          Object {
-            "key": "doge",
-            "status": null,
-            "value": Array [
-              Object {
-                "key": "wow",
-                "status": "removed",
-                "value": "",
-              },
-              Object {
-                "key": "wow",
-                "status": "added",
-                "value": "so much",
-              },
-            ],
-          },
-          Object {
-            "key": "key",
-            "status": "equal",
-            "value": "value",
-          },
-          Object {
-            "key": "ops",
-            "status": "added",
-            "value": "vops",
-          },
-        ],
-      },
-    ],
-  },
-  Object {
-    "key": "group1",
-    "status": null,
-    "value": Array [
-      Object {
-        "key": "baz",
-        "status": "removed",
-        "value": "bas",
-      },
-      Object {
-        "key": "baz",
-        "status": "added",
-        "value": "bars",
-      },
-      Object {
-        "key": "foo",
-        "status": "equal",
-        "value": "bar",
-      },
-      Object {
-        "key": "nest",
-        "status": "removed",
-        "value": Object {
-          "key": "value",
-        },
-      },
-      Object {
-        "key": "nest",
-        "status": "added",
-        "value": "str",
-      },
-    ],
-  },
-  Object {
-    "key": "group2",
-    "status": "removed",
-    "value": Object {
-      "abc": 12345,
-      "deep": Object {
-        "id": 45,
-      },
-    },
-  },
-  Object {
-    "key": "group3",
-    "status": "added",
-    "value": Object {
-      "deep": Object {
-        "id": Object {
-          "number": 45,
-        },
-      },
-      "fee": 100500,
-    },
-  },
-]
+"{
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: null
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+        setting6: {
+            doge: {
+              - wow: 
+              + wow: so much
+            }
+            key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+            key: value
+        }
+      + nest: str
+    }
+  - group2: {
+        abc: 12345
+        deep: {
+            id: 45
+        }
+    }
+  + group3: {
+        deep: {
+            id: {
+                number: 45
+            }
+        }
+        fee: 100500
+    }
+}"
 `;
 
 exports[`diff .yaml and .yml files 1`] = `
-Array [
-  Object {
-    "key": "follow",
-    "status": "removed",
-    "value": false,
-  },
-  Object {
-    "key": "host",
-    "status": "equal",
-    "value": "hexlet.io",
-  },
-  Object {
-    "key": "proxy",
-    "status": "removed",
-    "value": "123.234.53.22",
-  },
-  Object {
-    "key": "timeout",
-    "status": "removed",
-    "value": 50,
-  },
-  Object {
-    "key": "timeout",
-    "status": "added",
-    "value": 20,
-  },
-  Object {
-    "key": "verbose",
-    "status": "added",
-    "value": true,
-  },
-]
+"{
+  - follow: false
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}"
 `;

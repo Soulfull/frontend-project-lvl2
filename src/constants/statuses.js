@@ -1,7 +1,7 @@
 const statuses = {
   removed: 'removed',
   equal: 'equal',
-  modified: 'modified',
+  updated: 'updated',
   added: 'added',
 };
 
