@@ -2,6 +2,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { test, expect } from '@jest/globals';
 import genDiff from '../src/genDiff.js';
+import json from '../src/formatters/json.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -79,5 +80,18 @@ Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
 Property 'group3' was added with value: [complex value]`;
   const diff = genDiff([getFixturePath('fileNested1.json'), getFixturePath('fileNested2.json')], 'plain');
+  expect(diff).toBe(expectedResult);
+});
+
+test('json formatter', () => {
+  const diff = [{
+    a: 1, b: 'test', c: null,
+  }, [{ dd: [{ cav: [] }] }]];
+  expect(json(diff)).toBe(JSON.stringify(diff));
+});
+
+test('diff json format', () => {
+  const expectedResult = '[{"key":"common","value":[{"key":"follow","value":false,"status":"added"},{"key":"setting1","value":"Value 1","status":"equal"},{"key":"setting2","value":200,"status":"removed"},{"key":"setting3","value":true,"status":"updated","updatedValue":null},{"key":"setting4","value":"blah blah","status":"added"},{"key":"setting5","value":{"key5":"value5"},"status":"added"},{"key":"setting6","value":[{"key":"doge","value":[{"key":"wow","value":"","status":"updated","updatedValue":"so much"}],"status":null},{"key":"key","value":"value","status":"equal"},{"key":"ops","value":"vops","status":"added"}],"status":null}],"status":null},{"key":"group1","value":[{"key":"baz","value":"bas","status":"updated","updatedValue":"bars"},{"key":"foo","value":"bar","status":"equal"},{"key":"nest","value":{"key":"value"},"status":"updated","updatedValue":"str"}],"status":null},{"key":"group2","value":{"abc":12345,"deep":{"id":45}},"status":"removed"},{"key":"group3","value":{"deep":{"id":{"number":45}},"fee":100500},"status":"added"}]';
+  const diff = genDiff([getFixturePath('fileNested1.json'), getFixturePath('fileNested2.json')], 'json');
   expect(diff).toBe(expectedResult);
 });
