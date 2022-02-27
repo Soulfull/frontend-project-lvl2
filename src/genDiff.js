@@ -4,8 +4,7 @@ import compare from './compare.js';
 import getParse from './parsers/index.js';
 import getFormat from './formatters/index.js';
 
-const genDiff = (filepath1, filepath2, formatType) => {
-  const paths = [filepath1, filepath2];
+const genDiff = (paths, formatType) => {
   const items = paths.map((filepath) => {
     const contents = fs.readFileSync(path.resolve(filepath), 'utf8');
     const ext = path.extname(filepath);
