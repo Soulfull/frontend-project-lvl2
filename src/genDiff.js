@@ -14,7 +14,7 @@ const genDiff = (filepath1, filepath2, formatType) => {
   });
   const diff = compare(...items);
   const format = getFormat(formatType);
-  return diff;
+  return 1;
 };
 
 export default genDiff;
