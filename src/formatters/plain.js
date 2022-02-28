@@ -12,14 +12,14 @@ const getValue = (value) => {
 };
 
 const plain = (diff, path = '') => diff.filter(({ status }) => status !== statuses.equal).flatMap(({
-  key, value, status, updatedValue,
+  key, value, status,
 }) => {
   const keyPath = path.length > 0 ? `${path}.${key}` : key;
   if (!status) {
     return plain(value, keyPath);
   }
   if (status === statuses.updated) {
-    return `Property '${keyPath}' was updated. From ${getValue(value)} to ${getValue(updatedValue)}`;
+    return `Property '${keyPath}' was updated. From ${getValue(value[0])} to ${getValue(value[1])}`;
   }
   if (status === statuses.removed) {
     return `Property '${keyPath}' was removed`;

@@ -23,17 +23,18 @@ const getStatus = ({
 
 const compare = (source, target) => {
   const diffSource = Object.entries(source).map(([key, value]) => {
-    const isObjects = isObject(value) && isObject(target[key]);
-    const valueData = isObjects ? compare(value, target[key]) : value;
-    const statusData = isObjects ? null : getStatus({
+    const hasChildren = isObject(value) && isObject(target[key]);
+    const valueData = hasChildren ? compare(value, target[key]) : value;
+    const statusData = hasChildren ? null : getStatus({
       key, value, target, source,
     });
-    const node = {
+    const updated = statusData === statuses.updated;
+    return {
       key,
-      value: valueData,
+      value: updated ? [valueData, target[key]] : valueData,
       status: statusData,
+      hasChildren,
     };
-    return statusData === statuses.updated ? { ...node, updatedValue: target[key] } : node;
   });
   const diffTarget = Object.entries(target)
     .filter(([key, value]) => !isObject(value) || !isObject(source[key]))
@@ -43,7 +44,9 @@ const compare = (source, target) => {
       });
       return status === statuses.added;
     })
-    .map(([key, value]) => ({ key, value, status: statuses.added }));
+    .map(([key, value]) => ({
+      key, value, status: statuses.added, hasChildren: false,
+    }));
 
   return sortBy([...diffSource, ...diffTarget], 'key');
 };
