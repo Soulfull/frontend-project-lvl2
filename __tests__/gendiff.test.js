@@ -4,7 +4,6 @@ import { fileURLToPath } from 'url';
 import { test, expect } from '@jest/globals';
 import genDiff from '../index.js';
 import json from '../src/formatters/json.js';
-import compare from '../src/compare.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
