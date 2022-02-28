@@ -26,24 +26,24 @@ const needDeeperCompare = (source, target) => isObject(source) && isObject(targe
 const compare = (source, target) => {
   const diffSource = Object.entries(source).map(([key, value]) => {
     const hasChildren = needDeeperCompare(value, target[key]);
-    const valueData = hasChildren ? compare(value, target[key]) : value;
-    const statusData = hasChildren ? null : getStatus({
+    const status = hasChildren ? null : getStatus({
       key, value, target, source,
     });
+    const valueData = hasChildren ? compare(value, target[key]) : value;
+    const nodeValue = status === statuses.updated ? [valueData, target[key]] : valueData;
     return {
       key,
-      value: statusData === statuses.updated ? [valueData, target[key]] : valueData,
-      status: statusData,
+      status,
       hasChildren,
+      value: nodeValue,
     };
   });
   const diffTarget = Object.entries(target)
     .filter(([key, value]) => {
-      const hasChildren = needDeeperCompare(value, source[key]);
       const status = getStatus({
         key, source, target,
       });
-      return status === statuses.added && !hasChildren;
+      return status === statuses.added && !needDeeperCompare(value, source[key]);
     })
     .map(([key, value]) => ({
       key, value, status: statuses.added, hasChildren: false,

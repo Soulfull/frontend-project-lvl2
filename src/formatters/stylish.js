@@ -37,22 +37,23 @@ const getSign = (status) => {
   }
 };
 
+const REPLACER = '    ';
+
 const stylish = (diff) => {
-  const replacer = '    ';
   const iter = (nodes, depth) => {
-    const indent = replacer.repeat(depth);
-    const closeBraceIndent = replacer.repeat(depth - 1);
+    const indent = REPLACER.repeat(depth);
+    const closeBraceIndent = REPLACER.repeat(depth - 1);
     const contents = nodes.flatMap(({
       key, value, status, hasChildren,
     }) => {
       if (status === statuses.updated) {
         return value.map((val, index) => {
           const sign = index === 0 ? '-' : '+';
-          return `${replaceSign(indent, sign)}${key}: ${stringifyObject(val, replacer, depth + 1)}`;
+          return `${replaceSign(indent, sign)}${key}: ${stringifyObject(val, REPLACER, depth + 1)}`;
         });
       }
       const sign = getSign(status);
-      return `${replaceSign(indent, sign)}${key}: ${hasChildren ? iter(value, depth + 1) : stringifyObject(value, replacer, depth + 1)}`;
+      return `${replaceSign(indent, sign)}${key}: ${hasChildren ? iter(value, depth + 1) : stringifyObject(value, REPLACER, depth + 1)}`;
     });
     return ['{', ...contents, `${closeBraceIndent}}`].join('\n');
   };

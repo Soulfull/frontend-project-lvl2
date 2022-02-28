@@ -2,8 +2,12 @@ import isObject from 'lodash/isObject.js';
 
 const json = (diff) => {
   const iter = (value) => {
+    if (typeof value === 'string') {
+      return `"${value}"`;
+    }
+
     if (!isObject(value)) {
-      return typeof value === 'string' ? `"${value}"` : String(value);
+      return String(value);
     }
 
     if (Array.isArray(value)) {
