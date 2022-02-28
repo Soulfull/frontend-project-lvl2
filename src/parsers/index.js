@@ -1,11 +1,10 @@
-import yamlParser from './yamlParser.js';
-import jsonParser from './jsonParser.js';
+import yaml from 'js-yaml';
 
 const getParse = (ext) => {
   if (ext === '.yaml' || ext === '.yml') {
-    return yamlParser;
+    return yaml.load;
   }
-  return jsonParser;
+  return JSON.parse;
 };
 
 export default getParse;
